@@ -1082,14 +1082,14 @@ StatusWith<std::vector<std::unique_ptr<QuerySolution>>> QueryPlanner::plan(
     }
 
     // The caller can explicitly ask for a collscan.
-    bool collscanRequested = (params.options & QueryPlannerParams::INCLUDE_COLLSCAN);
+    // bool collscanRequested = (params.options & QueryPlannerParams::INCLUDE_COLLSCAN);
 
-    // No indexed plans?  We must provide a collscan if possible or else we can't run the query.
-    bool collScanRequired = 0 == out.size();
-    if (collScanRequired && !canTableScan) {
-        return Status(ErrorCodes::NoQueryExecutionPlans,
-                      "No indexed plans available, and running with 'notablescan'");
-    }
+    // // No indexed plans?  We must provide a collscan if possible or else we can't run the query.
+    // bool collScanRequired = 0 == out.size();
+    // if (collScanRequired && !canTableScan) {
+    //     return Status(ErrorCodes::NoQueryExecutionPlans,
+    //                   "No indexed plans available, and running with 'notablescan'");
+    // }
 
     // geoNear and text queries *require* an index.
     // Also, if a hint is specified it indicates that we MUST use it.
@@ -1100,7 +1100,8 @@ StatusWith<std::vector<std::unique_ptr<QuerySolution>>> QueryPlanner::plan(
         return Status(ErrorCodes::NoQueryExecutionPlans, "No query solutions");
     }
 
-    if (possibleToCollscan && (collscanRequested || collScanRequired)) {
+    // if (possibleToCollscan && (collscanRequested || collScanRequired)) {
+	if (possibleToCollscan) {	
         auto collscan = buildCollscanSoln(query, isTailable, params);
         if (!collscan && collScanRequired) {
             return Status(ErrorCodes::NoQueryExecutionPlans,
