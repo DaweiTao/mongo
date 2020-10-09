@@ -105,8 +105,14 @@ class DefaultPlanScorer final : public PlanScorer<PlanStageStats> {
 protected:
     double calculateProductivity(const PlanStageStats* stats) const final {
         invariant(stats->common.works != 0);
-        return static_cast<double>(stats->common.advanced) /
-            static_cast<double>(stats->common.works);
+        double productivity = static_cast<double>(stats->common.advanced) / static_cast<double>(stats->common.works);
+
+        if (hasStage(STAGE_FETCH, stats)) {
+            productivity /= 2;
+        }
+        // return static_cast<double>(stats->common.advanced) /
+        //     static_cast<double>(stats->common.works);
+        return productivity;
     }
 
     std::string getProductivityFormula(const PlanStageStats* stats) const {
