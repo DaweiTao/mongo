@@ -60,6 +60,13 @@ Python and OpenSSL C headers. Run:
 * Ubuntu/Debian - `apt-get install python3.7-dev libssl-dev`
 
 
+Scons Prerequisites
+---------------
+To install lzma dlevel （Devel libraries & headers for liblzma) on Linux, run:
+
+    $ yum install -y xz-devel
+
+
 SCons
 ---------------
 
