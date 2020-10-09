@@ -1084,8 +1084,8 @@ StatusWith<std::vector<std::unique_ptr<QuerySolution>>> QueryPlanner::plan(
     // The caller can explicitly ask for a collscan.
     // bool collscanRequested = (params.options & QueryPlannerParams::INCLUDE_COLLSCAN);
 
-    // // No indexed plans?  We must provide a collscan if possible or else we can't run the query.
-    // bool collScanRequired = 0 == out.size();
+    // No indexed plans?  We must provide a collscan if possible or else we can't run the query.
+    bool collScanRequired = 0 == out.size();
     // if (collScanRequired && !canTableScan) {
     //     return Status(ErrorCodes::NoQueryExecutionPlans,
     //                   "No indexed plans available, and running with 'notablescan'");
