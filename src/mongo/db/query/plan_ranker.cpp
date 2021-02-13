@@ -238,6 +238,10 @@ double PlanRanker::scoreTree(const PlanStageStats* stats) {
     // Range: [0, 1]
     double productivity =
         static_cast<double>(stats->common.advanced) / static_cast<double>(workUnits);
+    if (hasStage(STAGE_FETCH, stats)) {
+        productivity /= 2;
+    }
+    
 
     // Just enough to break a tie. Must be small enough to ensure that a more productive
     // plan doesn't lose to a less productive plan due to tie breaking.
