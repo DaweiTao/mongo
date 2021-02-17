@@ -239,6 +239,11 @@ double PlanRanker::scoreTree(const PlanStageStats* stats) {
     double productivity =
         static_cast<double>(stats->common.advanced) / static_cast<double>(workUnits);
 
+    // Penalizes the productivity of a fetch operation
+    if (hasStage(STAGE_FETCH, stats)) {
+        productivity /= 2;
+    }
+
     // Just enough to break a tie. Must be small enough to ensure that a more productive
     // plan doesn't lose to a less productive plan due to tie breaking.
     const double epsilon = std::min(1.0 / static_cast<double>(10 * workUnits), 1e-4);
